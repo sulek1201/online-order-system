@@ -1,7 +1,7 @@
 package com.sulek.order.repository;
 
 
-import com.sulek.order.model.User;
+import com.sulek.order.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

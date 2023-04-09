@@ -4,7 +4,7 @@ package com.sulek.order.service;
 
 
 import com.sulek.order.dto.RegistrationRequest;
-import com.sulek.order.model.User;
+import com.sulek.order.entity.User;
 import org.springframework.stereotype.Service;
 
 @Service

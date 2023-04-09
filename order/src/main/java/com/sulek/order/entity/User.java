@@ -1,4 +1,4 @@
-package com.sulek.order.model;
+package com.sulek.order.entity;
 
 import lombok.*;
 
@@ -28,6 +28,12 @@ public class User extends BaseEntity {
     @Column(name = "name_surname", length = 200)
     private String nameSurname;
 
+    @Column(name = "address")
+    private String address;
+
     @Column(name = "email", length = 100, unique = true)
     private String email;
+
+    @Column(name = "email_activision", length = 200)
+    private Boolean emailActivision;
 }

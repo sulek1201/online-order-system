@@ -1,9 +1,7 @@
-package com.sulek.order.service;
+package com.sulek.seller.service;
 
-
-
-import com.sulek.order.entity.User;
-import com.sulek.order.repository.UserRepository;
+import com.sulek.seller.entity.Seller;
+import com.sulek.seller.repository.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,17 +13,17 @@ import java.util.Arrays;
 
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class SellerDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private SellerRepository sellerRepository;
 
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String businessName) throws UsernameNotFoundException {
+        Seller user = sellerRepository.findByBusinessName(businessName);
         if(user == null){
             throw new UsernameNotFoundException("Invalid username or password.");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), Arrays.asList(new SimpleGrantedAuthority("USER")));
+        return new org.springframework.security.core.userdetails.User(user.getBusinessName(), user.getPassword(), Arrays.asList(new SimpleGrantedAuthority("USER")));
     }
 
 }

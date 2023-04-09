@@ -5,7 +5,7 @@ package com.sulek.order.service;
 import com.sulek.order.dto.RegistrationRequest;
 import com.sulek.order.exception.CustomerNotFoundException;
 import com.sulek.order.exception.DuplicateKeyValueException;
-import com.sulek.order.model.User;
+import com.sulek.order.entity.User;
 import com.sulek.order.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
                     .nameSurname(registrationRequest.getNameSurname())
                     .password(bCryptPasswordEncoder.encode(registrationRequest.getPassword()))
                     .username(registrationRequest.getUsername())
+                    .emailActivision(false)
                     .build();
             user.setStatus(true);
             user.setCreatedAt(new Date());

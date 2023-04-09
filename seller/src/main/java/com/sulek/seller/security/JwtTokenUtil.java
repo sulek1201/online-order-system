@@ -1,6 +1,6 @@
-package com.sulek.order.security;
+package com.sulek.seller.security;
 
-import com.sulek.order.entity.User;
+import com.sulek.seller.entity.Seller;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -47,8 +47,8 @@ public class JwtTokenUtil {
         return expiration.before(new Date());
     }
 
-    public String generateToken(User user) {
-        return doGenerateToken(user.getUsername());
+    public String generateToken(Seller seller) {
+        return doGenerateToken(seller.getBusinessName());
     }
 
     private String doGenerateToken(String subject) {

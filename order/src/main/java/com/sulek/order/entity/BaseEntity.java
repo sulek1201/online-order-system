@@ -1,4 +1,4 @@
-package com.sulek.order.model;
+package com.sulek.order.entity;
 
 import lombok.Getter;
 import lombok.Setter;

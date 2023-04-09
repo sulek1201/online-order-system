@@ -1,12 +1,13 @@
-package com.sulek.order.controller;
+package com.sulek.seller.controller;
 
 
-import com.sulek.order.dto.LoginRequest;
-import com.sulek.order.dto.RegistrationRequest;
-import com.sulek.order.dto.TokenResponse;
-import com.sulek.order.entity.User;
-import com.sulek.order.security.JwtTokenUtil;
-import com.sulek.order.service.UserServiceImpl;
+
+import com.sulek.seller.dto.LoginRequest;
+import com.sulek.seller.dto.RegistrationRequest;
+import com.sulek.seller.dto.TokenResponse;
+import com.sulek.seller.entity.Seller;
+import com.sulek.seller.security.JwtTokenUtil;
+import com.sulek.seller.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,19 +28,19 @@ public class AccountController {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private UserServiceImpl userService;
+    private SellerService sellerService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest request) throws AuthenticationException {
-        User user = userService.findByUserName(request.getUsername());
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), request.getPassword()));
-        final String token = jwtTokenUtil.generateToken(user);
-        return ResponseEntity.ok(new TokenResponse(user.getUsername(), token));
+        Seller seller = sellerService.findByUserName(request.getBusinessName());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(seller.getBusinessName(), request.getPassword()));
+        final String token = jwtTokenUtil.generateToken(seller);
+        return ResponseEntity.ok(new TokenResponse(seller.getBusinessName(), token));
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<Boolean> register(@RequestBody RegistrationRequest registrationRequest) throws AuthenticationException {
-        Boolean response = userService.register(registrationRequest);
+        Boolean response = sellerService.register(registrationRequest);
         return ResponseEntity.ok(response);
     }
 }
