@@ -3,6 +3,7 @@ package com.sulek.seller.service;
 
 import com.sulek.seller.dto.ProductRequestDto;
 import com.sulek.seller.dto.ProductResponseDto;
+import com.sulek.seller.entity.Product;
 import com.sulek.seller.entity.Seller;
 import org.springframework.stereotype.Service;
 
@@ -18,5 +19,7 @@ public interface ProductService {
     Boolean deleteProduct(Long productId, Seller seller);
 
     List<ProductResponseDto> getAllProductBySeller(Seller seller);
+
+    Product getProductById(Long productId);
 
 }

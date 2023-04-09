@@ -29,7 +29,7 @@ public class Product extends BaseEntity{
     private String description;
 
     @Column(name = "quantity")
-    private Long quantity;
+    private BigDecimal quantity;
 
     @Column(name = "price")
     private BigDecimal price;

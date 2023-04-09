@@ -10,12 +10,13 @@ import com.sulek.order.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 
-@Service
+@Component("UserServiceImpl")
 public class UserServiceImpl implements UserService {
 
 
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
                     .nameSurname(registrationRequest.getNameSurname())
                     .password(bCryptPasswordEncoder.encode(registrationRequest.getPassword()))
                     .username(registrationRequest.getUsername())
+                    .address(registrationRequest.getAddress())
                     .emailActivision(false)
                     .build();
             user.setStatus(true);

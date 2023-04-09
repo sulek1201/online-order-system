@@ -4,6 +4,7 @@ package com.sulek.order.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -40,11 +41,12 @@ public class Order {
     @Column(name = "product_id")
     private Long productId;
 
+    @Column(name = "quantity")
+    private BigDecimal quantity;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User userId;
 
-    @Column(name = "order_owner")
-    private String orderOwner;
 
 }

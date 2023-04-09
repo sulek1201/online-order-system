@@ -1,4 +1,4 @@
-package com.sulek.order.model.response;
+package com.sulek.seller.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

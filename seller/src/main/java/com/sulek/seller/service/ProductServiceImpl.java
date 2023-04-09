@@ -86,7 +86,7 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList = productRepository.findAllBySellerId(seller);
         if (productList != null) {
             List<ProductResponseDto> productResponseDtoList = new ArrayList<>();
-            for (Product product : productList){
+            for (Product product : productList) {
                 ProductResponseDto productResponseDto = ProductResponseDto.builder()
                         .name(product.getProductName())
                         .description(product.getDescription())
@@ -97,6 +97,15 @@ public class ProductServiceImpl implements ProductService {
             return productResponseDtoList;
         }
         return null;
+    }
+
+    @Override
+    public Product getProductById(Long productId) {
+        Product product = productRepository.findById(productId).orElse(null);
+        if (product == null) {
+            throw new SellerNotFoundException("no product for id: " + productId);
+        }
+        return product;
     }
 
     private Product getProductByIdAndSeller(ProductRepository productRepository, Long id, Seller seller) {
