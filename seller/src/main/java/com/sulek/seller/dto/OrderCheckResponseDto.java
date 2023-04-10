@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,4 +20,6 @@ public class OrderCheckResponseDto {
     private String msg;
     @JsonProperty("sellerId")
     private Long sellerId;
+    @JsonProperty("productUnitPrice")
+    private BigDecimal totalPrice;
 }

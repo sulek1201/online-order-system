@@ -44,6 +44,12 @@ public class Order {
     @Column(name = "quantity")
     private BigDecimal quantity;
 
+    @Column(name = "total_price")
+    private BigDecimal totalPrice;
+
+    @Column(name = "is_calculated")
+    private Boolean isCalculated;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User userId;

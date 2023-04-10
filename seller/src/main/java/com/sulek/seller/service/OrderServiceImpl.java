@@ -57,6 +57,7 @@ public class OrderServiceImpl implements OrderService {
                 .checkStatus(true)
                 .sellerId(product.getSellerId().getId())
                 .msg("Request successfull")
+                .totalPrice(product.getPrice().multiply(productOrderDto.getQuantity()))
                 .build();
     }
 

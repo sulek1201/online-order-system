@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
                     .msg(checkResponseDto.getMsg())
                     .build();
         }
-        Order order = initiateOrder(productOrder, user, checkResponseDto.getSellerId());
+        Order order = initiateOrder(productOrder, user, checkResponseDto.getSellerId(), checkResponseDto.getTotalPrice());
         return OrderResponseDto.builder()
                 .msg("order request is successfull")
                 .orderStatus(order.getOrderStatus())
@@ -193,7 +194,7 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
-    private Order initiateOrder(ProductOrderDto productOrder, User user, Long sellerId) {
+    private Order initiateOrder(ProductOrderDto productOrder, User user, Long sellerId, BigDecimal totalPrice) {
         Order order = Order.builder()
                 .createdAt(new Date())
                 .orderStatus(OrderStatus.CREATED.toString())
@@ -201,6 +202,7 @@ public class OrderServiceImpl implements OrderService {
                 .userId(user)
                 .quantity(productOrder.getQuantity())
                 .sellerId(sellerId)
+                .totalPrice(totalPrice)
                 .build();
         orderRepository.save(order);
         log.info("order initiated: {}", order);
