@@ -8,7 +8,8 @@ import com.sulek.seller.exception.SellerNotFoundException;
 import com.sulek.seller.exception.DataSaveException;
 import com.sulek.seller.repository.SellerRepository;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,8 +19,9 @@ import java.util.Date;
 
 @Component("SellerServiceImpl")
 @AllArgsConstructor
-@Slf4j
 public class SellerServiceImpl implements SellerService {
+
+    private final static Logger log = LogManager.getLogger(SellerServiceImpl.class);
 
     @Autowired
     private SellerRepository sellerRepository;

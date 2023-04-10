@@ -1,0 +1,29 @@
+<Configuration monitorInterval="300" status="WARN">
+    <properties>
+        <property name="LOG_HOME">/tmp/xbatch_log</property>
+        <property name="FILE_NAME">batchlog</property>
+    </properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} -- %msg%n"/>
+        </Console>
+
+        <RollingFile
+                name="MyFile"
+                fileName="seller.log"
+                filePattern="seller.%d{dd-MMM}.log.gz"
+                ignoreExceptions="false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} -- %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="MyFile"/>
+        </Root>
+    </Loggers>
+</Configuration>

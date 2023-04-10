@@ -4,7 +4,8 @@ import com.sulek.seller.dto.*;
 import com.sulek.seller.entity.Product;
 import com.sulek.seller.entity.Seller;
 import com.sulek.seller.exception.SellerNotFoundException;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component("OrderServiceImpl")
-@Slf4j
 public class OrderServiceImpl implements OrderService {
+
+    private final static Logger log = LogManager.getLogger(OrderServiceImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;

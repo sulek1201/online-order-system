@@ -8,7 +8,8 @@ import com.sulek.order.model.OrderDto;
 import com.sulek.order.model.ProductOrderDto;
 import com.sulek.order.model.response.*;
 import com.sulek.order.repository.OrderRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,8 +22,9 @@ import java.util.Date;
 import java.util.List;
 
 @Component("OrderServiceImpl")
-@Slf4j
 public class OrderServiceImpl implements OrderService {
+
+    private final static Logger log = LogManager.getLogger(OrderServiceImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;

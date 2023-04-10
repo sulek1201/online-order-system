@@ -4,8 +4,10 @@ import com.sulek.seller.dto.*;
 import com.sulek.seller.entity.Seller;
 import com.sulek.seller.security.JwtTokenUtil;
 import com.sulek.seller.service.OrderService;
+import com.sulek.seller.service.OrderServiceImpl;
 import com.sulek.seller.service.SellerService;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +18,9 @@ import java.util.List;
 @RequestMapping("/api/order")
 @RestController
 @CrossOrigin
-@Slf4j
 public class OrderController {
+
+    private final static Logger log = LogManager.getLogger(OrderServiceImpl.class);
 
     @Autowired
     @Qualifier("OrderServiceImpl")

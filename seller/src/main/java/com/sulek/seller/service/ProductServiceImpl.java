@@ -10,7 +10,8 @@ import com.sulek.seller.exception.SellerNotFoundException;
 import com.sulek.seller.exception.DataSaveException;
 import com.sulek.seller.repository.ProductRepository;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +22,10 @@ import java.util.List;
 
 @Component(value = "ProductServiceImpl")
 @AllArgsConstructor
-@Slf4j
 public class ProductServiceImpl implements ProductService {
 
+
+    private final static Logger log = LogManager.getLogger(ProductServiceImpl.class);
 
     private final ProductRepository productRepository;
 

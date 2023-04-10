@@ -1,8 +1,8 @@
 package com.sulek.order.service;
 
-import com.sulek.order.model.response.OrderCheckResponseDto;
 import com.sulek.order.model.response.ProductListResponse;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -12,8 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component("ProductServiceImpl")
-@Slf4j
 public class ProductServiceImpl implements ProductService{
+
+    private final static Logger log = LogManager.getLogger(OrderServiceImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;

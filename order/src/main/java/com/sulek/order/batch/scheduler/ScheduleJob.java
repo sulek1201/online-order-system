@@ -1,6 +1,7 @@
 package com.sulek.order.batch.scheduler;
 
-import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -17,8 +18,9 @@ import org.springframework.stereotype.Component;
 @Configuration
 @EnableScheduling
 @EnableBatchProcessing
-@Slf4j
 public class ScheduleJob {
+
+    private final static Logger log = LogManager.getLogger(ScheduleJob.class);
 
     @Autowired
     private JobRegistry jobRegistry;
