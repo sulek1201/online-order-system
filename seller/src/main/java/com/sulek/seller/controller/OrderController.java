@@ -1,8 +1,6 @@
 package com.sulek.seller.controller;
 
-import com.sulek.seller.dto.OrderCheckResponseDto;
-import com.sulek.seller.dto.OrderResponseDto;
-import com.sulek.seller.dto.ProductOrderDto;
+import com.sulek.seller.dto.*;
 import com.sulek.seller.entity.Seller;
 import com.sulek.seller.security.JwtTokenUtil;
 import com.sulek.seller.service.OrderService;
@@ -35,9 +33,19 @@ public class OrderController {
         return orderService.checkOrder(productOrderDto);
     }
 
-    @RequestMapping(value = "/check-order-by-status/{orderStatus}", method = RequestMethod.POST)
+    @RequestMapping(value = "/check-order-by-status/{orderStatus}", method = RequestMethod.GET)
     public ResponseEntity<List<OrderResponseDto>> checkOrderByStatus(@PathVariable("orderStatus") String orderStatus, @RequestHeader("Authorization") String jwtToken) {
         return ResponseEntity.ok(orderService.checkOrderByStatus(orderStatus, getSeller(jwtToken)));
+    }
+
+    @RequestMapping(value = "/approve-order/{orderId}", method = RequestMethod.POST)
+    public ResponseEntity<ApproveOrderResponse> approveOrder(@PathVariable("orderId") Long orderId, @RequestHeader("Authorization") String jwtToken) {
+        return ResponseEntity.ok(orderService.approveOrder(orderId, getSeller(jwtToken)));
+    }
+
+    @RequestMapping(value = "/reject-order/{orderId}", method = RequestMethod.POST)
+    public ResponseEntity<RejectOrderResponse> rejectOrder(@PathVariable("orderId") Long orderId, @RequestHeader("Authorization") String jwtToken) {
+        return ResponseEntity.ok(orderService.rejectOrder(orderId, getSeller(jwtToken).getId()));
     }
 
     private Seller getSeller(String jwtToken) {

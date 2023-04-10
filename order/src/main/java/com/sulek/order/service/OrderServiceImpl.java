@@ -3,10 +3,10 @@ package com.sulek.order.service;
 import com.sulek.order.enm.OrderStatus;
 import com.sulek.order.entity.Order;
 import com.sulek.order.entity.User;
+import com.sulek.order.exception.CustomerNotFoundException;
 import com.sulek.order.model.OrderDto;
 import com.sulek.order.model.ProductOrderDto;
-import com.sulek.order.model.response.OrderCheckResponseDto;
-import com.sulek.order.model.response.OrderResponseDto;
+import com.sulek.order.model.response.*;
 import com.sulek.order.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +32,8 @@ public class OrderServiceImpl implements OrderService {
     @Value("${product.seller.check.order.service}")
     private String checkOrderUrl;
 
+    @Value("${get.product.by.id.service}")
+    private String getProductByIdUrl;
     @Override
     @Transactional
     public OrderResponseDto placeOrder(ProductOrderDto productOrder, User user) {
@@ -75,6 +77,120 @@ public class OrderServiceImpl implements OrderService {
             return orderDtoList;
         }
         return null;
+    }
+
+    @Override
+    public ApproveOrderRepsonse approveOrder(Long orderId, Long sellerId) {
+        Order order = getOrder(orderId, sellerId);
+        if (order.getOrderStatus().equals(OrderStatus.CREATED.toString())) {
+            order.setOrderStatus(OrderStatus.ACCEPTED.toString());
+            order.setUpdatedAt(new Date());
+            try {
+                orderRepository.save(order);
+                log.info("order is updated: {}", order);
+                return ApproveOrderRepsonse.builder()
+                        .checkStatus(true)
+                        .msg("order successufly approved")
+                        .productId(order.getProductId())
+                        .quantity(order.getQuantity())
+                        .build();
+            } catch (Exception e) {
+                return ApproveOrderRepsonse.builder()
+                        .checkStatus(false)
+                        .msg("order could not approve because: " + e.getMessage())
+                        .build();
+            }
+        } else {
+            return ApproveOrderRepsonse.builder()
+                    .checkStatus(false)
+                    .msg("To approve order, order status must be CREATED")
+                    .build();
+        }
+    }
+
+    @Override
+    public RejectOrderResponse rejectOrder(Long orderId, Long sellerId) {
+        Order order = getOrder(orderId, sellerId);
+        if (order.getOrderStatus().equals(OrderStatus.CREATED.toString()) || order.getOrderStatus().equals(OrderStatus.ACCEPTED.toString())) {
+            order.setOrderStatus(OrderStatus.REJECTED.toString());
+            order.setUpdatedAt(new Date());
+            try {
+                orderRepository.save(order);
+                log.info("order is updated: {}", order);
+                return RejectOrderResponse.builder()
+                        .checkStatus(true)
+                        .msg("order successufly rejected")
+                        .build();
+            } catch (Exception e) {
+                return RejectOrderResponse.builder()
+                        .checkStatus(false)
+                        .msg("order could not reject because: " + e.getMessage())
+                        .build();
+            }
+        } else {
+            return RejectOrderResponse.builder()
+                    .checkStatus(false)
+                    .msg("To reject order, order status must be CREATED")
+                    .build();
+        }
+    }
+
+    @Override
+    public RejectOrderResponse cancelOrder(Long orderId, User user) {
+        Order order = orderRepository.findByIdAndUserId(orderId, user);
+        if (order == null) {
+            throw new CustomerNotFoundException("user has no order for id: " + orderId);
+        }
+        if (!order.getOrderStatus().equals(OrderStatus.ACCEPTED.toString())) {
+            order.setOrderStatus(OrderStatus.CANCELLED.toString());
+            order.setUpdatedAt(new Date());
+            try {
+                orderRepository.save(order);
+                log.info("order is updated: {}", order);
+                return RejectOrderResponse.builder()
+                        .checkStatus(true)
+                        .msg("order successufly canceld")
+                        .build();
+            } catch (Exception e) {
+                return RejectOrderResponse.builder()
+                        .checkStatus(false)
+                        .msg("order could not cancel because: " + e.getMessage())
+                        .build();
+            }
+        } else {
+            return RejectOrderResponse.builder()
+                    .checkStatus(false)
+                    .msg("To cancel order, order status can not be ACCEPTED")
+                    .build();
+        }
+    }
+
+    @Override
+    public List<OrderListResponse> getUserOrderList(User user) {
+        List<Order> orderList = orderRepository.findAllByUserId(user);
+        List<OrderListResponse> orderListResponseList = new ArrayList<>();
+        for (Order order : orderList) {
+            OrderListResponse orderListResponse = OrderListResponse.builder()
+                    .orderedDate(order.getCreatedAt())
+                    .orderStatus(order.getOrderStatus())
+                    .build();
+            String url = getProductByIdUrl.concat("/" + order.getProductId().toString());
+            ProductListResponse productListResponse = restTemplate.getForObject(url, ProductListResponse.class);
+            orderListResponse.setProductListResponse(productListResponse);
+            orderListResponseList.add(orderListResponse);
+        }
+        return orderListResponseList;
+    }
+
+    private Order getOrder(Long orderId, Long sellerId) {
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if (order == null) {
+            throw new CustomerNotFoundException("no order for id: " + orderId);
+        }
+        if (!order.getSellerId().equals(sellerId)) {
+            throw new CustomerNotFoundException("Seller has not this order for id: " + orderId);
+        }
+        return order;
     }
 
     private Order initiateOrder(ProductOrderDto productOrder, User user, Long sellerId) {

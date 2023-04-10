@@ -1,6 +1,7 @@
 package com.sulek.seller.service;
 
 
+import com.sulek.seller.dto.ProductListResponse;
 import com.sulek.seller.dto.ProductRequestDto;
 import com.sulek.seller.dto.ProductResponseDto;
 import com.sulek.seller.entity.Product;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -59,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
             product.setQuantity(productRequestDto.getQuantity());
         }
         try {
+            product.setUpdatedAt(new Date());
             productRepository.save(product);
             log.info("product updated: {}", product);
             return true;
@@ -101,11 +104,71 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long productId) {
+        return getProduct(productRepository, productId);
+    }
+
+    @Override
+    public ProductListResponse getProductResponseById(Long productId) {
+        Product product = productRepository.findById(productId).orElse(null);
+        if (product == null){
+            throw new SellerNotFoundException("No product for id: " + productId);
+        }
+        return ProductListResponse.builder()
+                .price(product.getPrice())
+                .name(product.getProductName())
+                .description(product.getDescription())
+                .build();
+    }
+
+    @Override
+    public Boolean handleProduct(Long productId, BigDecimal quantity) {
+        Product product = getProduct(productRepository, productId);
+        if (quantity.compareTo(product.getQuantity()) == 1) {
+            return false;
+        }
+        try {
+            product.setQuantity(product.getQuantity().subtract(quantity));
+            productRepository.save(product);
+            log.info("product updated {}", product);
+            return true;
+        } catch (Exception e) {
+            log.info("quantity could not substracted because: " + e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public List<ProductListResponse> getAllProductList() {
+        List<Product> productList = productRepository.findAllByQuantityGreaterThan(BigDecimal.ZERO);
+        return getProductListResponses(productList);
+    }
+
+    @Override
+    public List<ProductListResponse> getFilteredProductList(String name, String description) {
+        List<Product> productList = productRepository.findAllByProductNameContainingOrDescriptionContainingAndQuantityGreaterThanEqual(name, description, BigDecimal.ZERO);
+        return getProductListResponses(productList);
+    }
+
+    private Product getProduct(ProductRepository productRepository, Long productId) {
         Product product = productRepository.findById(productId).orElse(null);
         if (product == null) {
             throw new SellerNotFoundException("no product for id: " + productId);
         }
         return product;
+    }
+
+    private List<ProductListResponse> getProductListResponses(List<Product> productList) {
+        List<ProductListResponse> productListResponseList = new ArrayList<>();
+        for (Product product : productList) {
+            ProductListResponse productListResponse = ProductListResponse.builder()
+                    .price(product.getPrice())
+                    .description(product.getDescription())
+                    .name(product.getProductName())
+                    .quantity(product.getQuantity())
+                    .build();
+            productListResponseList.add(productListResponse);
+        }
+        return productListResponseList;
     }
 
     private Product getProductByIdAndSeller(ProductRepository productRepository, Long id, Seller seller) {

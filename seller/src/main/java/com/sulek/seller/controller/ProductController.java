@@ -1,6 +1,7 @@
 package com.sulek.seller.controller;
 
 
+import com.sulek.seller.dto.ProductListResponse;
 import com.sulek.seller.dto.ProductRequestDto;
 import com.sulek.seller.dto.ProductResponseDto;
 import com.sulek.seller.entity.Seller;
@@ -57,6 +58,21 @@ public class ProductController {
         Seller seller = getSeller(jwtToken);
         log.info("getAllProductBySeller service running with for seller: {}", seller.getId());
         return ResponseEntity.ok().body(productService.getAllProductBySeller(seller));
+    }
+
+    @RequestMapping(value = "/all-product-list", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductListResponse>> getAllProductList() {
+        return ResponseEntity.ok(productService.getAllProductList());
+    }
+
+    @RequestMapping(value = "/filtered-product-list/{name}/{description}", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductListResponse>> getFilteredProductList(@PathVariable("name") String name, @PathVariable("description") String description) {
+        return ResponseEntity.ok(productService.getFilteredProductList(name, description));
+    }
+
+    @RequestMapping(value = "/get-product-by-id/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ProductListResponse> getProductById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(productService.getProductResponseById(id));
     }
 
     private Seller getSeller(String jwtToken) {

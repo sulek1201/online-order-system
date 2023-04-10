@@ -1,10 +1,9 @@
 package com.sulek.seller.service;
 
-import com.sulek.seller.dto.OrderCheckResponseDto;
-import com.sulek.seller.dto.OrderResponseDto;
-import com.sulek.seller.dto.ProductOrderDto;
+import com.sulek.seller.dto.*;
 import com.sulek.seller.entity.Product;
 import com.sulek.seller.entity.Seller;
+import com.sulek.seller.exception.SellerNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +27,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Value("${check.created.order.service}")
     private String checkOrderUrl;
+
+    @Value("${approve.order.service}")
+    private String approveOrderUrl;
+
+    @Value("${reject.order.service}")
+    private String rejectOrderUrl;
 
     @Override
     public List<OrderResponseDto> checkOrderByStatus(String orderStatus, Seller seller) {
@@ -53,5 +58,31 @@ public class OrderServiceImpl implements OrderService {
                 .sellerId(product.getSellerId().getId())
                 .msg("Request successfull")
                 .build();
+    }
+
+    @Override
+    public ApproveOrderResponse approveOrder(Long orderId, Seller seller) {
+        String url = approveOrderUrl.concat("/" + orderId.toString().concat("/" + seller.getId().toString()));
+        ApproveOrderResponse approveOrderResponse = restTemplate.postForObject(url, null, ApproveOrderResponse.class);
+        if (approveOrderResponse == null) {
+            throw new SellerNotFoundException("approve service response can not be null");
+        }
+        log.info("approve order rest service response: {}", approveOrderResponse);
+        Boolean productHandled = productService.handleProduct(approveOrderResponse.getProductId(), approveOrderResponse.getQuantity());
+        if (productHandled) {
+            return approveOrderResponse;
+        } else {
+            rejectOrder(orderId, seller.getId());
+            return ApproveOrderResponse.builder()
+                    .checkStatus(false)
+                    .msg("order rejected pls check current quantity of productID: " + approveOrderResponse.getProductId())
+                    .build();
+        }
+    }
+
+    @Override
+    public RejectOrderResponse rejectOrder(Long orderId, Long sellerId) {
+        String url = rejectOrderUrl.concat("/" + orderId.toString().concat("/" + sellerId.toString()));
+        return restTemplate.postForObject(url, null, RejectOrderResponse.class);
     }
 }
