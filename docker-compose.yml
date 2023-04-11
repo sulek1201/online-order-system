@@ -1,0 +1,51 @@
+version: "3.9"
+services:
+  order:
+    build:
+      context: ./order
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/order
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: karete-1201
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SELLER_SERVICE_BASE_URL: http://seller:8080/api
+    depends_on:
+      - db
+    networks:
+      - order-seller-network
+  seller:
+    build:
+      context: ./seller
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/order
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: karete-1201
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      ORDER_SERVICE_BASE_URL: http://order:8081/api
+    depends_on:
+      - db
+    networks:
+      - order-seller-network
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: karete-1201
+      POSTGRES_DB: order
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - type: bind
+        source: ./init.sql
+        target: /docker-entrypoint-initdb.d/init.sql
+    networks:
+      - order-seller-network
+networks:
+  order-seller-network:
