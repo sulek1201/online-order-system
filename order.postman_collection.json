@@ -1,0 +1,482 @@
+{
+	"info": {
+		"_postman_id": "55dc5676-8d35-4794-a7df-c8e454e9cf78",
+		"name": "order",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15593021"
+	},
+	"item": [
+		{
+			"name": "seller-register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"businessName\": \"sulek\",\r\n    \"password\": \"karete-1201\",\r\n    \"email\": \"sulek@gmail.com6\",\r\n    \"address\": \"basaksehir/istanbul\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/account/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"account",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "seller-login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"businessName\": \"sulek\",\r\n    \"password\": \"karete-1201\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/account/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"account",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add-product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdWxlayIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgxIiwiaWF0IjoxNjgxMDUxOTk4LCJleHAiOjE2ODExMzgzOTh9.-PrSb3SytfI3hzv2h1xbGm4LR82oqIjz47w_EnJvgm4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"güzel kahve\",\n    \"quantity\": 6,\n    \"productName\": \"flat white\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/product/add-product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"product",
+						"add-product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-product",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdWxlayIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgxIiwiaWF0IjoxNjgxMDUxOTk4LCJleHAiOjE2ODExMzgzOTh9.-PrSb3SytfI3hzv2h1xbGm4LR82oqIjz47w_EnJvgm4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"çok güze kahve\",\n    \"quantity\": 5,\n    \"productName\": \"white chocalate mocha\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/product/update-food/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"product",
+						"update-food",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/product/delete-food/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"product",
+						"delete-food",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-product",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdWxlayIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgxIiwiaWF0IjoxNjgxMDUxOTk4LCJleHAiOjE2ODExMzgzOTh9.-PrSb3SytfI3hzv2h1xbGm4LR82oqIjz47w_EnJvgm4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/product/get-all-products-by-seller",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"product",
+						"get-all-products-by-seller"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "place-order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZW1hVGVzdDQiLCJzY29wZXMiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODE4MSIsImlhdCI6MTY4MTA2MjUyNSwiZXhwIjoxNjgxMTQ4OTI1fQ.xKzSGQ-4rp5YghsViQT5MKKtMphn4lUUi70uj6CPZWw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": 2,\n    \"quantity\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/order/place-order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"order",
+						"place-order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-order",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdWxlayIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgxIiwiaWF0IjoxNjgxMTIwMTY0LCJleHAiOjE2ODEyMDY1NjR9.F9OZurhHvKl496QL83LKqBYLLrCo0ngCgCO-Kw90j5k",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/order/check-order-by-status/ALL",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"order",
+						"check-order-by-status",
+						"ALL"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nameSurname\": \"seqDeneme7\",\r\n    \"username\": \"semaTest4\",\r\n    \"password\": \"karete-1201\",\r\n    \"email\": \"seq@gmail.com6\",\r\n    \"address\": \"seq@gmail.com6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/account/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"account",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZW1hVGVzdDQiLCJzY29wZXMiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODE4MSIsImlhdCI6MTY4MTA2MjUyNSwiZXhwIjoxNjgxMTQ4OTI1fQ.xKzSGQ-4rp5YghsViQT5MKKtMphn4lUUi70uj6CPZWw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"semaTest4\",\r\n    \"password\": \"karete-1201\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/account/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"account",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "approve-order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdWxlayIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MTgxIiwiaWF0IjoxNjgxMTIwMTY0LCJleHAiOjE2ODEyMDY1NjR9.F9OZurhHvKl496QL83LKqBYLLrCo0ngCgCO-Kw90j5k",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/order/approve-order/56",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"order",
+						"approve-order",
+						"56"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-product-list",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZW1hVGVzdDQiLCJzY29wZXMiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODE4MSIsImlhdCI6MTY4MTEyODExNCwiZXhwIjoxNjgxMjE0NTE0fQ.n5FxryCrGE88ofoYf3AaBOPRIO3gt4wBMhdcWNsXsiA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/product/all-product-list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"product",
+						"all-product-list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-filtered-product-list",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZW1hVGVzdDQiLCJzY29wZXMiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODE4MSIsImlhdCI6MTY4MTEyODExNCwiZXhwIjoxNjgxMjE0NTE0fQ.n5FxryCrGE88ofoYf3AaBOPRIO3gt4wBMhdcWNsXsiA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"latte\",\n    \"description\": \"güzel \"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/product/filtered-product-list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"product",
+						"filtered-product-list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-order-list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZW1hVGVzdDQiLCJzY29wZXMiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODE4MSIsImlhdCI6MTY4MTEyODExNCwiZXhwIjoxNjgxMjE0NTE0fQ.n5FxryCrGE88ofoYf3AaBOPRIO3gt4wBMhdcWNsXsiA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8081/api/order/user-order-list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"order",
+						"user-order-list"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
